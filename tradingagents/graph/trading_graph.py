@@ -303,6 +303,12 @@ class TradingAgentsGraph:
         """Execute the graph and write the resulting state to disk and memory log."""
         # Initialize state — inject memory log context for PM.
         past_context = self.memory_log.get_past_context(company_name)
+        
+        # AlphaKey Injection: Append custom backtesting feedback if provided
+        alphakey_feedback = self.config.get("alphakey_historical_feedback")
+        if alphakey_feedback:
+            past_context = (past_context or "") + "\n\n=== AlphaKey Backend Feedback ===\n" + alphakey_feedback
+            
         init_agent_state = self.propagator.create_initial_state(
             company_name, trade_date, past_context=past_context
         )
