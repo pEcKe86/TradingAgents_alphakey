@@ -27,6 +27,10 @@ class ConditionalLogic:
             return "tools_social"
         return "Msg Clear Social"
 
+    def should_continue_sentiment(self, state: AgentState):
+        """Determine if sentiment analysis should continue."""
+        return self.should_continue_social(state)
+
     def should_continue_news(self, state: AgentState):
         """Determine if news analysis should continue."""
         messages = state["messages"]

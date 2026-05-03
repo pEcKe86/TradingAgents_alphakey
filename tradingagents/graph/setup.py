@@ -41,6 +41,14 @@ class GraphSetup:
         if len(selected_analysts) == 0:
             raise ValueError("Trading Agents Graph Setup Error: no analysts selected!")
 
+        # Map "sentiment" to "social" to support both aliases
+        selected_analysts = [
+            a if a != "sentiment" else "social" for a in selected_analysts
+        ]
+        # De-duplicate while preserving order
+        seen = set()
+        selected_analysts = [x for x in selected_analysts if not (x in seen or seen.add(x))]
+
         # Create analyst nodes
         analyst_nodes = {}
         delete_nodes = {}
